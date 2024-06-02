@@ -1,29 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMove : MonoBehaviour
 {
     [SerializeField] float _movePower = 10;
-
-    private Vector3 _dir = default;
-
-    Rigidbody _rb;
+    
+    private Vector3 _dir;
     // Start is called before the first frame update
     void Start()
     {
-        _rb = GetComponent<Rigidbody>();
+        
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnMove(InputValue value)
     {
-        float x = Input.GetAxisRaw("Horizontal");
-        //ç∂âEÇÃì¸óÕ
-        float z = Input.GetAxisRaw("Vertical");
-        //è„â∫ÇÃì¸óÕ
-        _dir = new Vector3(x, 0, -z);
+        var Axis = value.Get<Vector2>();
+        _dir = new Vector3(Axis.x, Axis.y, 0);
+    }
 
-        _rb.velocity = _dir * _movePower;
+    private void Update()
+    {
+        transform.position += _dir * Time.deltaTime * _movePower;
     }
 }
