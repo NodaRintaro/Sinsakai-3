@@ -17,12 +17,12 @@ public class PlayerState : MonoBehaviour
     /// </summary>
     [SerializeField] int _hp = 3;
 
-    public void Score (float score)
+    public void ScorePlus (float score)
     {
         _score += score;
     }//スコア加算
 
-    public void HP (int hp)
+    public void HPMinus (int hp)
     {
         _hp -= hp;
         if (_hp <= 0)

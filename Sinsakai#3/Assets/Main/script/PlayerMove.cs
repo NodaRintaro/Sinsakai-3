@@ -11,7 +11,7 @@ public class PlayerMove : MonoBehaviour
     /// </summary>
     [SerializeField] float _movePower = 10;
     
-    private Vector3 _dir;
+    private Vector3 _dir;   
     
     void Start()
     {
