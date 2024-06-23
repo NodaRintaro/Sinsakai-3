@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-class DamageEnemy : EnemysType
+class ScorePlusEnemy : EnemysType
 {
-    [SerializeField]private int _damage = 1;
+    [SerializeField] private int _healPower = 1;
 
     public override void EnemyEffect()
     {
-        PlayerState.Instance.HPMinus(_damage);
+        PlayerState.Instance.ScorePlus(_healPower);
     }
 }

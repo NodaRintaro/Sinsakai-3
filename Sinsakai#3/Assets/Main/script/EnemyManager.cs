@@ -11,11 +11,11 @@ public class EnemyManager : MonoBehaviour
     /// <summary>
     /// 生成位置Xの最大値
     /// </summary>
-    [SerializeField] private float _maxSpawnRangeX = 5;
+    [SerializeField] private float _maxSpawnRangeX = 3;
     /// <summary>
     /// 生成位置Yの最大値
     /// </summary>
-    [SerializeField] private float _maxSpawnRangeY = 5;
+    [SerializeField] private float _maxSpawnRangeY = 3;
     /// <summary>
     /// Enemyの配列
     /// </summary>
@@ -24,6 +24,10 @@ public class EnemyManager : MonoBehaviour
     /// 生成速度
     /// </summary>
     [SerializeField] private float _spawnInterval = 1;
+    /// <summary>
+    /// 敵の移動速度
+    /// </summary>
+    [SerializeField] public float _movePower = 10;
 
     private float _time;
 
@@ -41,15 +45,15 @@ public class EnemyManager : MonoBehaviour
     public void Spawn(int num)
     {
         GameObject enemy = _enemyObject[num];
-        Vector3 spawnPos = new Vector3(Random.Range(-_maxSpawnRangeX, _maxSpawnRangeX), Random.Range(-_maxSpawnRangeY, _maxSpawnRangeY), 30);
-        enemy.SetActive(true);
-        enemy.transform.position = spawnPos;
+        Vector3 spawnPos = new Vector3(Random.Range(-_maxSpawnRangeX, _maxSpawnRangeX), Random.Range(-_maxSpawnRangeY, _maxSpawnRangeY), 20);
+        if(_enemysCount >= )
+        Instantiate(enemy, spawnPos, Quaternion.identity);
         _enemyObject.Remove(enemy);
     }
 
     public void AddEnemy(GameObject enemy)
     {
+        //_enemyObject.Add(enemy);
         enemy.SetActive(false);
-        _enemyObject.Add(enemy);
     }
 }

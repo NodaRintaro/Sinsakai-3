@@ -2,17 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpeedEnemy : MonoBehaviour
+class SpeedEnemy : EnemysType
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]private float _speed = 0.2f;
+    public override void EnemyEffect()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        EnemyManager.Instance._movePower += _speed;
     }
 }
