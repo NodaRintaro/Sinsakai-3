@@ -7,16 +7,22 @@ public class PlayerState : MonoBehaviour
     private static PlayerState instance = new PlayerState();
     public static PlayerState Instance => instance;
 
+    public bool _inGame = true; 
+
     /// <summary>
     /// スコア
     /// </summary>
-    private float _score = 0;
+    public float _score = 0;
 
     /// <summary>
     /// プレイヤーの耐久値
     /// </summary>
-    [SerializeField] int _hp = 3;
+    [SerializeField]public int _hp = 3;
 
+    private void Start()
+    {
+
+    }
     public void ScorePlus (float score)
     {
         _score += score;
@@ -27,7 +33,7 @@ public class PlayerState : MonoBehaviour
         _hp -= hp;
         if (_hp <= 0)
         {
-            
+            _inGame = false;
         }
     }//HPの計算
 }
