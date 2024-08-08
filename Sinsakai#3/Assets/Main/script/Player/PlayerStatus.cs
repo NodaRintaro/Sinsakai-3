@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerState : MonoBehaviour
+public class PlayerStatus : MonoBehaviour
 {
-    private static PlayerState instance = new PlayerState();
-    public static PlayerState Instance => instance;
+    private static PlayerStatus instance = new PlayerStatus();
+    public static PlayerStatus Instance => instance;
 
-    public bool _inGame = true; 
+    private bool _finishGame = false; 
 
     /// <summary>
     /// スコア
@@ -19,21 +19,17 @@ public class PlayerState : MonoBehaviour
     /// </summary>
     [SerializeField]public int _hp = 3;
 
-    private void Start()
-    {
-
-    }
-    public void ScorePlus (float score)
+    public void CurrentScore (float score)
     {
         _score += score;
-    }//スコア加算
+    }//スコア加算と表示
 
-    public void HPMinus (int hp)
+    public void CurrentHP (int hp)
     {
         _hp -= hp;
         if (_hp <= 0)
         {
-            _inGame = false;
+            
         }
-    }//HPの計算
+    }//HPの計算と表示
 }

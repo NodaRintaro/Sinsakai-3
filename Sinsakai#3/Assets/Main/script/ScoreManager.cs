@@ -23,7 +23,7 @@ public class ScoreManager : MonoBehaviour
 
     private void Update()
     {
-        if (PlayerState.Instance._inGame == false)
+        if (PlayerStatus.Instance._inGame == false)
         {
             _gameOverObject.SetActive(true);
             _gameOverText.text = "GameOver";
@@ -31,8 +31,8 @@ public class ScoreManager : MonoBehaviour
         }
         else
         {
-            _scoreText.text = "Score:" + PlayerState.Instance._score.ToString("000");
-            _hpText.text = "HP:" + PlayerState.Instance._hp.ToString();
+            _scoreText.text = "Score:" + PlayerStatus.Instance._score.ToString("000");
+            _hpText.text = "HP:" + PlayerStatus.Instance._hp.ToString();
         }
     }
 }

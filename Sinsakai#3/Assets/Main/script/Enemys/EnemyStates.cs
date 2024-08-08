@@ -20,7 +20,7 @@ public class EnemyStates : MonoBehaviour
 
     public void EnemyEffect()
     {
-        PlayerState.Instance.HPMinus(1);
+        PlayerStatus.Instance.CurrentHP(1);
     }
 
     private void OnBecameInvisible()

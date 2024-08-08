@@ -1,66 +1,60 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Pool;
 
-public class ObjectPool : MonoBehaviour
+public class ObjectPool
 {
-    /// <summary>
-    /// 生成速度
-    /// </summary>
-    [SerializeField] public float _spawnInterval = 1f;
+    /// <summary> 使用されたプールを保存するためのDictionary </summary>
+    private readonly Dictionary<int, List<GameObject>> _poolDict = new();
 
-    [SerializeField] private Vector3 _spawnPoint = new Vector3();
-
-    [SerializeField] private Stack<PooledObject> _objectPool = new Stack<PooledObject>();
-
-    [SerializeField] public PooledObject _pooledObject;
-
-    [SerializeField] public string _poolCode;
-
-    private float _timer = 0;
-
-    private void Start()
+    /// <summary> 指定したオブジェクトを表示する（無かったら生成する） </summary>
+    public GameObject SpawnObject(GameObject prefab)
     {
-        PoolCollection.Instance.AddCollection(_poolCode, _objectPool);
+        //引数に指定されたプレハブのハッシュ値を取得
+        int hash = prefab.GetHashCode();
+        //新たに表示したいプレハブが既に登録されていたらまずそのList内から探す
+        if (_poolDict.ContainsKey(hash))
+        {
+            //まだ非表示のオブジェクトがないか探す
+            var targetPool = _poolDict[hash];
+            foreach (var pool in targetPool)
+            {
+                if (!pool.activeSelf)
+                {
+                    pool.SetActive(true);
+                    return pool;
+                }
+            }
+
+            //全部表示済みだったら新規に生成し、そのオブジェクトを返す
+            var go = Object.Instantiate(prefab, prefab.transform.position, prefab.transform.rotation);
+
+            targetPool.Add(go);
+            go.SetActive(true);
+
+            return go;
+        }
+
+        //Dictionaryに登録されてなかった場合新規に作成し、Dictionaryに登録する
+        var createObj = Object.Instantiate(prefab);
+        var poolList = new List<GameObject>() { createObj };
+        _poolDict.Add(hash, poolList);
+        createObj.SetActive(true);
+
+        return createObj;
     }
 
-    private void Update()
-    {
-        _timer += Time.deltaTime;
-        if (_timer > _spawnInterval)
-        {
-            _timer = 0;
-            GetPooledObject();
-        }
-    }
-    public void GetPooledObject()
-    {
-        if(_objectPool.Count == 0)
-        {
-            SpawnPoint();
-            Instantiate(_pooledObject, _spawnPoint, Quaternion.identity);
-        }
-        else
-        {
-            SpawnPoint();
-            PooledObject activeObject = _objectPool.Pop();
-            activeObject.gameObject.SetActive(true);
-            activeObject.transform.position = _spawnPoint;
-        }
-    }
-    
-    public void ReturnToPool(PooledObject pooledObject)
-    {
-        if(pooledObject == _pooledObject)
-        {
-            _objectPool.Push(pooledObject);
-            pooledObject.gameObject.SetActive(false);
-        }
-    }
+    /// <summary> 指定したオブジェクトを非表示にする </summary>
+    public void RemoveObject(GameObject go) => go.SetActive(false);
 
-    public void SpawnPoint()
+    /// <summary> 指定されたオブジェクトのハッシュ値を取得する（プールに存在しなかったら登録する） </summary>
+    public int GetHashCode(GameObject prefab)
     {
-        _spawnPoint = new Vector3(Random.Range(-20,20),0,Random.Range(-20,20));
+        int hash = prefab.GetHashCode();
+        if (!_poolDict.ContainsKey(hash))
+        {
+            var poolList = new List<GameObject>() { prefab };
+            _poolDict.Add(hash, poolList);
+        }
+        return hash;
     }
 }

@@ -18,7 +18,7 @@ public class SceneChange : MonoBehaviour
 
     public void Update()
     {
-        if (!PlayerState.Instance._inGame)
+        if (!PlayerStatus.Instance._inGame)
         {
             Invoke("ReTrunScene", 3f);
         }

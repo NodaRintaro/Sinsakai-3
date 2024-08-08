@@ -17,7 +17,7 @@ public class PlayerMove : MonoBehaviour
     {
         float time = Time.deltaTime;
         transform.position += _dir * Time.deltaTime * _movePower;
-        PlayerState.Instance.ScorePlus(time);
+        PlayerStatus.Instance.CurrentScore(time);
     }
 
     public void OnMove(InputValue value)
